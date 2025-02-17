@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Depression Relief Exercise</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #c1e3ff, #abc7ff);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            text-align: center;
+            max-width: 500px;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #4b9cd3;
+        }
+
+        .exercise {
+            display: none;
+            font-size: 18px;
+            margin: 20px 0;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        button {
+            background-color: #4b9cd3;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background-color: #3577a3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Depression Relief Exercise</h1>
+        <p>Try these simple steps to help ease your mind.</p>
+
+        <div id="step1" class="exercise" style="display: block;">
+            <p>1️⃣ Take a deep breath... Inhale for 4 seconds, hold for 4 seconds, and exhale slowly. 😌</p>
+            <div class="buttons">
+                <button onclick="nextStep(2)">Next</button>
+            </div>
+        </div>
+
+        <div id="step2" class="exercise">
+            <p>2️⃣ Stand up and stretch your arms. Move your body gently. 🏃‍♂</p>
+            <div class="buttons">
+                <button onclick="nextStep(3)">Next</button>
+            </div>
+        </div>
+
+        <div id="step3" class="exercise">
+            <p>3️⃣ Repeat after me: "I am strong, I am enough, and I am loved." 💖</p>
+            <div class="buttons">
+                <button onclick="restartExercise()">Restart</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function nextStep(step) {
+            document.querySelectorAll('.exercise').forEach(ex => ex.style.display = 'none');
+            document.getElementById('step' + step).style.display = 'block';
+        }
+
+        function restartExercise() {
+            nextStep(1);
+        }
+    </script>
+</body>
+</html>

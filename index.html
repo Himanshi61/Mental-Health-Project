@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Echoes of Hope</title>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .section {
+            background-image: url('index.webp'); 
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+            color:rgb(87, 36, 36);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background-attachment: fixed;
+        }
+
+        .line {
+            font-size: 1.5rem;
+            font-style: italic;
+            margin-bottom: 30px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        h1 {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .btn-custom {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 30px;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+
+        .btn-custom:hover {
+            background-color: #0056b3;
+        }
+
+        @media (max-width: 768px) {
+            .section h1 {
+                font-size: 2.5rem;
+            }
+            .line {
+                font-size: 1.2rem;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    
+    <div class="section">
+        <div class="text">
+            <h1>Echoes of Hope</h1>
+            <p class="line">"Strength in Every Voice, Hope in Every Call."</p>
+            
+            <div class="d-flex justify-content-center gap-3">
+                <a href="signin.html"  type="submit" class="btn btn-custom mx-2">Start</a>
+            </div>
+            
+        </div>
+    </div>
+
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
