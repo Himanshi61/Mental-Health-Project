@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Depression Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(to right, #ed90d5, #abc7ff);
+            margin: 0;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            border-radius: 8px;
+            width: 300px;
+        }
+        #opt {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        button {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #164b84;
+            color: white;
+            border-color: black;
+            border-radius: 10px;
+            cursor: pointer;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #5082b8;
+        }
+        .exercise-section {
+            margin-top: 20px;
+            text-align: left;
+        }
+        .exercise-section h3 {
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        .exercise-section ul {
+            list-style-type: disc;
+            padding-left: 20px;
+        }
+        .exercise-section li {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="container">
+        <h1>Depression Test</h1>
+        <div id="ques-container">
+            <h2 id="ques">Loading...</h2>
+            <div id="opt"></div>
+        </div>
+    </div>
+    <script>
+        const ques = [
+            { 
+                ques: "Difficulty focusing on everyday tasks ", 
+                opt: [
+                    { text: "Never", points: 1 }, 
+                    { text: "Some of the time", points: 2 }, 
+                    { text: "Much of the time", points: 3 }, 
+                    { text: "Nearly all the time", points: 4 }
+                ]
+            },
+            { 
+                ques: "Finding no joy in life, or feeling like you never will again ", 
+                opt: [
+                    { text: "Never", points: 1 }, 
+                    { text: "Some of the time", points: 2 }, 
+                    { text: "Much of the time", points: 3 }, 
+                    { text: "Nearly all the time", points: 4 }
+                ]
+            },
+            { 
+                ques: "Being lethargic or having no energy ", 
+                opt: [
+                    { text: "Never", points: 1 }, 
+                    { text: "Some of the time", points: 2 }, 
+                    { text: "Much of the time", points: 3 }, 
+                    { text: "Nearly all the time", points: 4 }
+                ]
+            },
+            { 
+                ques: "Eating too much, or too little  ", 
+                opt: [
+                    { text: "Never", points: 1 }, 
+                    { text: "Some of the time", points: 2 }, 
+                    { text: "Much of the time", points: 3 }, 
+                    { text: "Nearly all the time", points: 4 }
+                ]
+            },
+            { 
+                ques: "Being full of nervous energy, or moving much less than usual ", 
+                opt: [
+                    { text: "Never", points: 1 }, 
+                    { text: "Some of the time", points: 2 }, 
+                    { text: "Much of the time", points: 3 }, 
+                    { text: "Nearly all the time", points: 4 }
+                ]
+            },
+            { 
+                ques: "Oversleeping, or struggling to get to sleep", 
+                opt: [
+                    { text: "Never", points: 1 }, 
+                    { text: "Some of the time", points: 2 }, 
+                    { text: "Much of the time", points: 3 }, 
+                    { text: "Nearly all the time", points: 4 }
+                ]
+            },
+            { 
+                ques: "Feeling low or 'under a cloud' ", 
+                opt: [
+                    { text: "Never", points: 1 }, 
+                    { text: "Some of the time", points: 2 }, 
+                    { text: "Much of the time", points: 3 }, 
+                    { text: "Nearly all the time", points: 4 }
+                ]
+            },
+            { 
+                ques: "Considering harming yourself, or committing suicide", 
+                opt: [
+                    { text: "Never", points: 1 }, 
+                    { text: "Some of the time", points: 2 }, 
+                    { text: "Much of the time", points: 3 }, 
+                    { text: "Nearly all the time", points: 4 }
+                ]
+            },
+            { 
+                ques: "Being harsh on yourself or overly self-critical ", 
+                opt: [
+                    { text: "Never", points: 1 }, 
+                    { text: "Some of the time", points: 2 }, 
+                    { text: "Much of the time", points: 3 }, 
+                    { text: "Nearly all the time", points: 4 }
+                ]
+            },
+            { 
+                ques: "Headaches, cramps, aches, or pains that won't go away", 
+                opt: [
+                    { text: "Never", points: 1 }, 
+                    { text: "Some of the time", points: 2 }, 
+                    { text: "Much of the time", points: 3 }, 
+                    { text: "Nearly all the time", points: 4 }
+                ]
+            },
+            { 
+                ques: "Loss of interest or pleasure in things you previously found enjoyable ", 
+                opt: [
+                    { text: "Never", points: 1 }, 
+                    { text: "Some of the time", points: 2 }, 
+                    { text: "Much of the time", points: 3 }, 
+                    { text: "Nearly all the time", points: 4 }
+                ]
+            },
+            { 
+                ques: "Feeling angry, irritable, or frustrated, even over small matters", 
+                opt: [
+                    { text: "Never", points: 1 }, 
+                    { text: "Some of the time", points: 2 }, 
+                    { text: "Much of the time", points: 3 }, 
+                    { text: "Nearly all the time", points: 4 }
+                ]
+            },
+            { 
+                ques: "Slow thinking, speaking, or body movements ", 
+                opt: [
+                    { text: "Never", points: 1 }, 
+                    { text: "Some of the time", points: 2 }, 
+                    { text: "Much of the time", points: 3 }, 
+                    { text: "Nearly all the time", points: 4 }
+                ]
+            },
+        ];
+        
+        let CurrQuesInd = 0; /*CurrQuesInd : currentQuestionIndex*/
+        let score = 0;
+
+        function loadQues() {
+            const quesElement = document.getElementById("ques");
+            const optContainer = document.getElementById("opt");
+
+            if (CurrQuesInd >= ques.length) {
+                displayResult();
+                return;
+            }
+
+            const currQues = ques[CurrQuesInd];
+            quesElement.innerText = currQues.ques;
+            optContainer.innerHTML = "";
+
+            currQues.opt.forEach(option => {
+                const button = document.createElement("button");
+                button.innerText = option.text;
+                button.onclick = () => {
+                    score += option.points;
+                    nextQuestion();
+                };
+                optContainer.appendChild(button);
+            });
+        }
+
+        function nextQuestion() {
+            CurrQuesInd++;
+            loadQues();
+        }
+        
+
+        function displayResult() {
+            const container = document.getElementById("container");
+            let message = "";
+            let buttonText = "";
+            let buttonLink = "#";
+
+            if (score >= 0 && score <= 13) {
+                message = "Your score suggests minimal or no depression.";
+                buttonText = "Stay Positive!";
+                buttonLink= "relaxation.html";
+            } else if (score >= 14 && score <= 30) {
+                message = "Your score indicates mild depression. Consider self-care and lifestyle changes.";
+                buttonText = "Self-Care Tips";
+                buttonLink = "";
+            } else if (score >= 31 && score <= 52) {
+                message = "Your score suggests depression. Seeking professional help might be beneficial.";
+                buttonText = "Find Help";
+                buttonLink = "client.py";
+            } 
+
+            container.innerHTML = `
+                <h1>Your Score: ${score}</h1>
+                <p>${message}</p>
+                <a href="${buttonLink}" target="_blank"><button>${buttonText}</button></a>
+                <div class="exercise-section">
+                    <h3>Mental Health Exercises</h3>
+                    <p>Here are some exercises to help improve your mental health:</p>
+                    <ul>
+                        <li><strong>Deep Breathing:</strong> Practice deep breathing for 5-10 minutes daily to reduce stress.</li>
+                        <li><strong>Mindfulness Meditation:</strong> Spend 10-15 minutes focusing on your breath and being present in the moment.</li>
+                        <li><strong>Physical Activity:</strong> Engage in light exercise like walking or yoga for 20-30 minutes.</li>
+                        <li><strong>Journaling:</strong> Write down your thoughts and feelings to process emotions.</li>
+                        <li><strong>Gratitude Practice:</strong> List 3 things you're grateful for every day.</li>
+                        <li><strong>Progressive Muscle Relaxation:</strong> Tense and relax each muscle group to release tension.</li>
+                    </ul>
+                </div>
+            `;
+        }
+
+        window.onload = loadQues;
+    </script>
+</body>
+</html>

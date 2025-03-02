@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Internet Addiction Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(to right, #64e940, #abc7ff);
+            margin: 0;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            border-radius: 8px;
+            width: 300px;
+        }
+        #opt {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        button {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #164b84;
+            color: white;
+            border-color: black;
+            border-radius: 10;
+
+            cursor: pointer;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #5082b8;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="container">
+        <h1>Internet Addiction Test</h1>
+        <div id="ques-container">
+            <h2 id="ques">Loading...</h2>
+            <div id="opt"></div>
+        </div>
+        <!--<button id="next-btn" onclick="nextQuestion()">Next</button>-->
+    </div>
+    <script>
+        const ques = [
+        { 
+            ques: "How often does being online interfere with responsibilities in your life like work, projects or chores? ", 
+            opt: [
+                { text: "Never", points: 1 }, 
+                { text: "Rarely ", points: 2 }, 
+                { text: "Occasionalyy", points: 3 }, 
+                { text: "Sometimes ", points: 4 },
+                { text: "Often ", points: 5 }, 
+                { text: "All the time ", points: 6 },
+            ]
+        },
+        { 
+            ques: "How often have you chosen to stay online rather than go out with friends or family? ", 
+            opt: [
+                { text: "Never", points: 1 }, 
+                { text: "Rarely ", points: 2 }, 
+                { text: "Occasionalyy", points: 3 }, 
+                { text: "Sometimes ", points: 4 },
+                { text: "Often ", points: 5 }, 
+                { text: "All the time ", points: 6 },
+                
+            ]
+        },
+        
+        { 
+            ques: "How often has your school work or paid employment suffered because of the time you spend online? ", 
+            opt: [
+                { text: "Never", points: 1 }, 
+                { text: "Rarely ", points: 2 }, 
+                { text: "Occasionalyy", points: 3 }, 
+                { text: "Sometimes ", points: 4 },
+                { text: "Often ", points: 5 }, 
+                { text: "All the time ", points: 6 }, 
+                
+            ]
+        },
+
+        { 
+            ques: "Before staring a task, how often do yoy find yourself first checking emails or messages online?  ", 
+            opt: [
+                { text: "Never", points: 1 }, 
+                { text: "Rarely ", points: 2 }, 
+                { text: "Occasionalyy", points: 3 }, 
+                { text: "Sometimes ", points: 4 },
+                { text: "Often ", points: 5 }, 
+                { text: "All the time ", points: 6 }, 
+                
+            ]
+        },
+        { 
+            ques: "How often do you submit work or school assignments late because of the time you spend online? ", 
+            opt: [
+                { text: "Never", points: 1 }, 
+                { text: "Rarely ", points: 2 }, 
+                { text: "Occasionalyy", points: 3 }, 
+                { text: "Sometimes ", points: 4 },
+                { text: "Often ", points: 5 }, 
+                { text: "All the time ", points: 6 }, 
+            
+            ]
+        },
+        { 
+            ques: "To what extent do you feel like being without the internet would be a serious issue for you? ", 
+            opt: [
+                { text: "Not at all", points: 1 }, 
+                { text: "Mild issue ", points: 2 }, 
+                { text: "Moderate Issue", points: 3 }, 
+                { text: "Serious issue ", points: 4 },
+                { text: "Very serious issue ", points: 5 }, 
+                { text: "Extreme Issue ", points: 6 }, 
+    
+            ]
+        },
+        { 
+            ques: "How often do you feel irritable or agitated when offline, only to find that those feelings subside when you go online? ", 
+            opt: [
+                { text: "Never", points: 1 }, 
+                { text: "Rarely ", points: 2 }, 
+                { text: "Occasionalyy", points: 3 }, 
+                { text: "Somwtimes ", points: 4 },
+                { text: "Often ", points: 5 }, 
+                { text: "All the time ", points: 6 }, 
+    
+            ]
+        },
+        { 
+            ques: "How often do you make new friends with other oonline users?", 
+            opt: [
+                { text: "Never", points: 1 }, 
+                { text: "Rarely ", points: 2 }, 
+                { text: "Occasionalyy", points: 3 }, 
+                { text: "Somwtimes ", points: 4 },
+                { text: "Often ", points: 5 }, 
+                { text: "All the time ", points: 6 }, 
+    
+            ]
+        },
+        { 
+            ques: "How often have you become irritable or annoyed when someone comments on how much time you spend online ?", 
+            opt: [
+                { text: "Never", points: 1 }, 
+                { text: "Rarely ", points: 2 }, 
+                { text: "Occasionalyy", points: 3 }, 
+                { text: "Somwtimes ", points: 4 },
+                { text: "Often ", points: 5 }, 
+                { text: "All the time ", points: 6 }, 
+    
+            ]
+        },
+        { 
+            ques: "How often do people close to you comment negatively about the amount of time you spend on the internt or social media ?", 
+            opt: [
+                { text: "Never", points: 1 }, 
+                { text: "Rarely ", points: 2 }, 
+                { text: "Occasionalyy", points: 3 }, 
+                { text: "Somwtimes ", points: 4 },
+                { text: "Often ", points: 5 }, 
+                { text: "All the time ", points: 6 }, 
+    
+            ]
+        },
+        { 
+            ques: "How often have you lied about how much time you spend online ? ", 
+            opt: [
+                { text: "Never", points: 1 }, 
+                { text: "Rarely ", points: 2 }, 
+                { text: "Occasionalyy", points: 3 }, 
+                { text: "Somwtimes ", points: 4 },
+                { text: "Often ", points: 5 }, 
+                { text: "All the time ", points: 6 }, 
+                
+            ]
+        },
+        { 
+            ques: "How often do you use time on the internet to avoid thoughts about problems or issues in you life? ", 
+            opt: [
+                { text: "Never", points: 1 }, 
+                { text: "Rarely ", points: 2 }, 
+                { text: "Occasionalyy", points: 3 }, 
+                { text: "Sometimes ", points: 4 },
+                { text: "Often ", points: 5 }, 
+                { text: "All the time ", points: 6 },
+            ]
+        },
+        { 
+            ques: "After going offline, how often do you find yourself thinking about when you'll next be able to go online?  ", 
+            opt: [
+                { text: "Never", points: 1 }, 
+                { text: "Rarely ", points: 2 }, 
+                { text: "Occasionalyy", points: 3 }, 
+                { text: "Sometimes ", points: 4 },
+                { text: "Often ", points: 5 }, 
+                { text: "All the time ", points: 6 },
+            ]
+        },
+        { 
+            ques: "How often do you find that you are unable to drag yourself away from being online or promising yourself 'just another 5 minutes'? ", 
+            opt: [
+                { text: "Never", points: 1 }, 
+                { text: "Rarely ", points: 2 }, 
+                { text: "Occasionalyy", points: 3 }, 
+                { text: "Sometimes ", points: 4 },
+                { text: "Often ", points: 5 }, 
+                { text: "All the time ", points: 6 },
+            ]
+        },
+        { 
+            ques: "When you are offline, how often do you think about being back online?  ", 
+            opt: [
+                { text: "Never", points: 1 }, 
+                { text: "Rarely ", points: 2 }, 
+                { text: "Occasionalyy", points: 3 }, 
+                { text: "Sometimes ", points: 4 },
+                { text: "Often ", points: 5 }, 
+                { text: "All the time ", points: 6 },
+            ]
+        },
+        { 
+            ques: "How often do you find yourself 'zonung out' when online or becoming irritable when omeone interrupts you while you are online?  ", 
+            opt: [
+                { text: "Never", points: 1 }, 
+                { text: "Rarely ", points: 2 }, 
+                { text: "Occasionalyy", points: 3 }, 
+                { text: "Sometimes ", points: 4 },
+                { text: "Often ", points: 5 }, 
+                { text: "All the time ", points: 6 },
+            ]
+        },
+        { 
+            ques: "How often do you spemd timme online at the expense of engaging with friends and family? ", 
+            opt: [
+                { text: "Never", points: 1 }, 
+                { text: "Rarely ", points: 2 }, 
+                { text: "Occasionalyy", points: 3 }, 
+                { text: "Sometimes ", points: 4 },
+                { text: "Often ", points: 5 }, 
+                { text: "All the time ", points: 6 },
+            ]
+        },
+        { 
+            ques: "How often do you lose track of time browsing the internet or social media ? ", 
+            opt: [
+                { text: "Never", points: 1 }, 
+                { text: "Rarely ", points: 2 }, 
+                { text: "Occasionalyy", points: 3 }, 
+                { text: "Sometimes ", points: 4 },
+                { text: "Often ", points: 5 }, 
+                { text: "All the time ", points: 6 },
+            ]
+        },
+        { 
+            ques: "How often does you internet use prevent you from getting the amount of sleep you need? ", 
+            opt: [
+                { text: "Never", points: 1 }, 
+                { text: "Rarely ", points: 2 }, 
+                { text: "Occasionalyy", points: 3 }, 
+                { text: "Sometimes ", points: 4 },
+                { text: "Often ", points: 5 }, 
+                { text: "All the time ", points: 6 },
+            ]
+        },
+        { 
+            ques: "How often have you tried and failed to reduce the amount of time you spend on the internet and social media?  ", 
+            opt: [
+                { text: "Never", points: 1 }, 
+                { text: "Rarely ", points: 2 }, 
+                { text: "Occasionalyy", points: 3 }, 
+                { text: "Sometimes ", points: 4 },
+                { text: "Often ", points: 5 }, 
+                { text: "All the time ", points: 6 },
+            ]
+        },
+        ];
+        
+        let CurrQuesInd = 0; /*CurrQuesInd : currentQuestionIndex*/
+        let score = 0;
+
+        function loadQues() {
+            const quesElement = document.getElementById("ques");
+            const optContainer = document.getElementById("opt");
+
+            if (CurrQuesInd >= ques.length) {
+                displayResult();
+                return;
+            }
+
+            const currQues = ques[CurrQuesInd];
+            quesElement.innerText = currQues.ques;
+            optContainer.innerHTML = "";
+
+            currQues.opt.forEach(option => {
+                const button = document.createElement("button");
+                button.innerText = option.text;
+                button.onclick = () => {
+                    score += option.points;
+                    nextQuestion();
+                };
+                optContainer.appendChild(button);
+            });
+        }
+
+        function nextQuestion() {
+            CurrQuesInd++;
+            loadQues();
+        }
+        
+
+        function displayResult() {
+            const container = document.getElementById("container");
+            let message = "";
+            let buttonText = "";
+            let buttonLink = "#";
+
+            if (score >= 0 && score <= 20) {
+                message = "Your internet usage seems to be balanced. Keep maintaining healthy screen habits!";
+                buttonText = "Stay Balanced!";
+            } else if (score >= 21 && score <= 40) {
+                message = "You might be spending too much time online. Consider setting time limits.";
+                buttonText = "Set Time Limits";
+                buttonLink = "stress.html";
+            } else if (score >= 41 && score <= 60) {
+                message = "Your internet usage may be affecting your daily life. Seeking support could be helpful.";
+                buttonText = "Get Support";
+                buttonLink = "client.py";
+            } else if (score >= 61 && score <= 80) {
+                message = "Your internet habits indicate a serious problem. Please seek professional help immediately.";
+                buttonText = "Find Urgent Help";
+                buttonLink = "client.py";
+            }            
+            
+
+            container.innerHTML = `
+                <h1>Your Score: ${score}</h1>
+                <p>${message}</p>
+                <a href="${buttonLink}" target="_blank"><button>${buttonText}</button></a>
+            `;
+        }
+
+        window.onload = loadQues;
+    </script>
+</body>
+</html>

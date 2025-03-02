@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anxiety Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(to right, #c1e3ff, #abc7ff);
+            margin: 0;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            border-radius: 8px;
+            width: 300px;
+        }
+        #opt {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        button {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #164b84;
+            color: white;
+            border-color: black;
+            border-radius: 10;
+
+            cursor: pointer;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #5082b8;
+        }
+    </style>
+</head>
+<body>
+    <!-- ques- question-->
+     <!--opt- options-->
+    <div class="container" id="container">
+        <h1>Anxiety Test</h1>
+        <div id="ques-container">
+            <h2 id="ques">Loading...</h2>
+            <div id="opt"></div>
+        </div>
+        <!--<button id="next-btn" onclick="nextQuestion()">Next</button>-->
+    </div>
+    <script>
+        const ques = [
+        { 
+            ques: "I've been unable to stay in one place- like sitting down- for any length of time", 
+            opt: [
+                { text: "Never", points: 1 }, 
+                { text: "Some of the time", points: 2 }, 
+                { text: "Much of the time", points: 3 }, 
+                { text: "Nearly all the time", points: 4 }
+            ]
+        },
+        { 
+            ques: "I've been very concerned about several things at one time", 
+            opt: [
+                { text: "Never", points: 1 }, 
+                { text: "Some of the time", points: 2 }, 
+                { text: "Much of the time", points: 3 }, 
+                { text: "Nearly all the time", points: 4 }
+            ]
+        },
+        { 
+            ques: "I've been agitated, tense, or skittish", 
+            opt: [
+                { text: "Never", points: 1 }, 
+                { text: "Some of the time", points: 2 }, 
+                { text: "Much of the time", points: 3 }, 
+                { text: "Nearly all the time", points: 4 }
+            ]
+        },
+        { 
+            ques: "I've been unable to feel calm or relaxed", 
+            opt: [
+                { text: "Never", points: 1 }, 
+                { text: "Some of the time", points: 2 }, 
+                { text: "Much of the time", points: 3 }, 
+                { text: "Nearly all the time", points: 4 }
+            ]
+        },
+        { 
+            ques: "I've struggled to control feelings of anxiety, agitation, or fear", 
+            opt: [
+                { text: "Never", points: 1 }, 
+                { text: "Some of the time", points: 2 }, 
+                { text: "Much of the time", points: 3 }, 
+                { text: "Nearly all the time", points: 4 }
+            ]
+        },
+        { 
+            ques: "I've felt bad-tempered, irritable, or moody", 
+            opt: [
+                { text: "Never", points: 1 }, 
+                { text: "Some of the time", points: 2 }, 
+                { text: "Much of the time", points: 3 }, 
+                { text: "Nearly all the time", points: 4 }
+            ]
+        },
+        { 
+            ques: "I've been afraid or panicky about bad things that might happen to myself or others", 
+            opt: [
+                { text: "Never", points: 1 }, 
+                { text: "Some of the time", points: 2 }, 
+                { text: "Much of the time", points: 3 }, 
+                { text: "Nearly all the time", points: 4 }
+            ]
+        }
+        ];
+        
+        let CurrQuesInd = 0; /*CurrQuesInd : currentQuestionIndex*/
+        let score = 0;
+
+        function loadQues() {
+            const quesElement = document.getElementById("ques");
+            const optContainer = document.getElementById("opt");
+
+            if (CurrQuesInd >= ques.length) {
+                displayResult();
+                return;
+            }
+
+            const currQues = ques[CurrQuesInd];
+            quesElement.innerText = currQues.ques;
+            optContainer.innerHTML = "";
+
+            currQues.opt.forEach(option => {
+                const button = document.createElement("button");
+                button.innerText = option.text;
+                button.onclick = () => {
+                    score += option.points;
+                    nextQuestion();
+                };
+                optContainer.appendChild(button);
+            });
+        }
+
+        function nextQuestion() {
+            CurrQuesInd++;
+            loadQues();
+        }
+        
+
+        function displayResult() {
+            const container = document.getElementById("container");
+            let message = "";
+            let buttonText = "";
+            let buttonLink = "#";
+        
+            if (score >= 0 && score <= 7) {
+                message = "Your anxiety levels are low. Keep taking care of your mental health!";
+                buttonText = "Learn Relaxation Techniques";
+                buttonLink = "relaxation.html";
+            } else if (score >= 8 && score <= 14) {
+                message = "You may be experiencing mild anxiety. Consider stress management strategies.";
+                buttonText = "Stress Management Tips";
+                buttonLink = "stress.html";
+            } else if (score >= 15 && score <= 21) {
+                message = "Moderate anxiety detected. Talking to someone might help.";
+                buttonText = "Find Support";
+                buttonLink = "client.py";
+            } else if (score >= 22 && score <= 28) {
+                message = "High anxiety levels detected. Seeking professional help is recommended.";
+                buttonText = "Contact a Professional";
+                buttonLink = "client.py";
+            }
+        
+            container.innerHTML = `
+                <h1>Your Score: ${score}</h1>
+                <p>${message}</p>
+                <a href="${buttonLink}" target="_blank"><button>${buttonText}</button></a>
+            `;
+        }
+        
+
+        window.onload = loadQues;
+    </script>
+</body>
+</html>

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Understanding Depression</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(to right, #ed90d5, #abc7ff);
+            margin: 0;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            border-radius: 8px;
+            width: 300px;
+        }
+        #opt {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        button {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #f71857df;
+            color: white;
+            border-color: black;
+            border-radius: 10px;
+            cursor: pointer;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #5082b8;
+        }
+        .chatbot {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #f1f1f1;
+            border-radius: 8px;
+            width: 100%;
+            text-align: left;
+        }
+        .chatbot-messages {
+            height: 150px;
+            overflow-y: scroll;
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: white;
+            border-radius: 8px;
+        }
+        .chatbot-input {
+            display: flex;
+        }
+        .chatbot-input input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+        .chatbot-input button {
+            margin-left: 10px;
+            padding: 10px;
+            background-color: #f71857df;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .chatbot-input button:hover {
+            background-color: #5082b8;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Understanding Depression</h1>
+        <p>Depression is a common but serious mental health disorder that negatively affects how a person feels, thinks, and behaves. It is characterized by persistent feelings of sadness, hopelessness, and a lack of interest or pleasure in daily activities. Depression can interfere with daily functioning, relationships, and overall well-being.</p>
+        
+        <form action="/depression.html">
+            <button class="quiz-button">Take the Quiz</button>
+        </form>
+
+        <!-- Chatbot Section -->
+        <div class="chatbot">
+            <h3>Chat with a Mentor</h3>
+            <div class="chatbot-messages" id="chatbot-messages">
+                <p><strong>Mentor:</strong> Hi! How can I help you today?</p>
+            </div>
+            <div class="chatbot-input">
+                <input type="text" id="chatbot-input" placeholder="Type your message...">
+                <button onclick="sendMessage()">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function sendMessage() {
+            const input = document.getElementById('chatbot-input');
+            const message = input.value.trim();
+            if (message === "") return;
+
+            const chatBox = document.getElementById('chatbot-messages');
+            chatBox.innerHTML += `<p><strong>You:</strong> ${message}</p>`;
+
+            // Simulate a mentor's response (you can replace this with actual logic)
+            setTimeout(() => {
+                chatBox.innerHTML += `<p><strong>Mentor:</strong> I understand. Can you tell me more about how you're feeling?</p>`;
+                chatBox.scrollTop = chatBox.scrollHeight; // Auto-scroll to the latest message
+            }, 1000);
+
+            input.value = ""; // Clear the input field
+        }
+    </script>
+</body>
+</html>

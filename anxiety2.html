@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Understanding Anxiety</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(to right, #ff5b33, #90edd5);
+            margin: 0;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            border-radius: 8px;
+            width: 300px;
+        }
+        #opt {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        button {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #ff5b33;
+            color: white;
+            border-color: black;
+            border-radius: 10px;
+            cursor: pointer;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #ff5b33;
+        }
+        .chatbot {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #f1f1f1;
+            border-radius: 8px;
+            width: 100%;
+            text-align: left;
+        }
+        .chatbot-messages {
+            height: 150px;
+            overflow-y: scroll;
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: white;
+            border-radius: 8px;
+        }
+        .chatbot-input {
+            display: flex;
+        }
+        .chatbot-input input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+        .chatbot-input button {
+            margin-left: 10px;
+            padding: 10px;
+            background-color: #ff5b33;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .chatbot-input button:hover {
+            background-color: #ff5b33;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Understanding Anxiety</h1>
+        <p>Anxiety is a natural response to stress, characterized by feelings of worry, nervousness, or fear. It can be triggered by various situations, such as exams, job interviews, or social interactions. While occasional anxiety is normal, excessive and persistent anxiety can interfere with daily life.</p>
+        <p>Managing anxiety involves self-care, relaxation techniques, and seeking support when needed. If anxiety becomes overwhelming, professional help can provide effective coping strategies.</p>
+        
+        <form action="/anxiety.html">
+            <button class="quiz-button">Take the Quiz</button>
+        </form>
+
+        <!-- Chatbot Section -->
+        <div class="chatbot">
+            <h3>Chat with an AI Mentor</h3>
+            <div class="chatbot-messages" id="chatbot-messages">
+                <p><strong>AI Mentor:</strong> Hi! I'm here to help. What's on your mind?</p>
+            </div>
+            <div class="chatbot-input">
+                <input type="text" id="chatbot-input" placeholder="Type your message...">
+                <button onclick="sendMessage()">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Simulated AI responses (replace with actual API calls)
+        const aiResponses = [
+            "It sounds like you're feeling anxious. Have you tried deep breathing exercises?",
+            "Anxiety can be tough to manage alone. Consider talking to a trusted friend or therapist.",
+            "It's important to take things one step at a time. What's one small thing you can do to feel better?",
+            "You're not alone in this. Many people find relief through mindfulness and meditation.",
+            "Focus on self-care. What activities help you relax and feel calm?"
+        ];
+
+        function getRandomResponse() {
+            // Return a random response from the list
+            return aiResponses[Math.floor(Math.random() * aiResponses.length)];
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('chatbot-input');
+            const message = input.value.trim();
+            if (message === "") return;
+
+            const chatBox = document.getElementById('chatbot-messages');
+            chatBox.innerHTML += `<p><strong>You:</strong> ${message}</p>`;
+
+            // Simulate AI response (replace with actual API call)
+            const aiResponse = getRandomResponse();
+            chatBox.innerHTML += `<p><strong>AI Mentor:</strong> ${aiResponse}</p>`;
+            chatBox.scrollTop = chatBox.scrollHeight; // Auto-scroll to the latest message
+
+            input.value = ""; // Clear the input field
+        }
+    </script>
+</body>
+</html>

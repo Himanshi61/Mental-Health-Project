@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Motivational Shorts</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #000;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+        .video-container {
+            position: relative;
+            width: 300px;
+            height: 500px;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 15px;
+        }
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            z-index: 1000;
+        }
+        .back-button:hover {
+            background: rgba(255, 255, 255, 0.5);
+        }
+        .side-options {
+            position: absolute;
+            right: 10px;
+            bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            align-items: center;
+        }
+        .side-options button {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            padding: 10px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+        }
+        .side-options button:hover {
+            background: rgba(255, 255, 255, 0.5);
+        }
+        .navigation-buttons {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+        }
+        .navigation-buttons button {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        .navigation-buttons button:hover {
+            background: rgba(255, 255, 255, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <div class="video-container">
+        <!-- Video Player -->
+        <iframe id="videoPlayer" src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <div class="side-options">
+            <button onclick="likeVideo()">❤️</button>
+            <button onclick="commentVideo()">💬</button>
+            <button onclick="shareVideo()">🔗</button>
+            <button onclick="moreOptions()">⋮</button>
+        </div>
+    </div>
+
+    <!-- Navigation Buttons -->
+    <div class="navigation-buttons">
+        <button onclick="loadVideo(0)">1</button>
+        <button onclick="loadVideo(1)">2</button>
+        <button onclick="loadVideo(2)">3</button>
+        <button onclick="loadVideo(3)">4</button>
+        <button onclick="loadVideo(4)">5</button>
+    </div>
+
+    <button class="back-button" onclick="goBack()">Back to Home</button>
+
+    <script>
+        // List of YouTube Shorts
+        const videos = [
+            "https://www.youtube.com/embed/7NOSDKb0HlU?autoplay=1&mute=1",
+            "https://www.youtube.com/embed/3JZ_D3ELwOQ?autoplay=1&mute=1",
+            "https://www.youtube.com/embed/5qap5aO4i9A?autoplay=1&mute=1"
+        ];
+
+        const videoPlayer = document.getElementById('videoPlayer');
+
+        // Function to load a specific video
+        function loadVideo(index) {
+            if (index >= 0 && index < videos.length) {
+                videoPlayer.src = videos[index];
+            }
+        }
+
+        // Load the first video by default
+        loadVideo(0);
+
+        // Function to like the video
+        function likeVideo() {
+            alert('You liked this video!');
+        }
+
+        // Function to comment on the video
+        function commentVideo() {
+            const comment = prompt('Enter your comment:');
+            if (comment) {
+                alert(`You commented: "${comment}"`);
+            }
+        }
+
+        // Function to share the video
+        function shareVideo() {
+            alert('Share this video!');
+            // You can add actual sharing functionality here (e.g., using Web Share API)
+        }
+
+        // Function for more options
+        function moreOptions() {
+            alert('More options clicked!');
+            // Add functionality for more options here
+        }
+
+        // Function to go back to the home page
+        function goBack() {
+            window.location.href = 'home.html';
+        }
+    </script>
+</body>
+</html>

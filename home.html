@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mental Wellness Hub</title>
+    <style>
+        body {
+            font-family: 'Arial Rounded MT Bold', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, rgba(164, 194, 245, 0.8), rgba(194, 233, 251, 0.8)),
+                        url('https://images.unsplash.com/photo-1495195129352-aeb325a55b65?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');
+            background-size: cover;
+            background-blend-mode: soft-light;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Floating particles animation */
+        .floating-particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+            animation: float 20s infinite linear;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); }
+            100% { transform: translateY(-100vh) rotate(360deg); }
+        }
+
+        .home-container {
+            text-align: center;
+            animation: fadeIn 2s ease-in-out;
+            position: relative;
+            z-index: 1;
+        }
+
+        .home-container h1 {
+            font-size: 3.5em;
+            color: #2c3e50;
+            text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.5);
+            margin-bottom: 30px;
+            position: relative;
+            animation: titleFloat 6s ease-in-out infinite;
+        }
+
+        @keyframes titleFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .home-container h1::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #ff4757, transparent);
+        }
+
+        /* Enhanced options box */
+        .options-box {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            animation: slideIn 1s ease-in-out;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .options-box button {
+            padding: 20px 40px;
+            cursor: pointer;
+            border: none;
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            color: white;
+            border-radius: 15px;
+            font-size: 1.1em;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .options-box button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                120deg,
+                transparent,
+                rgba(255, 255, 255, 0.3),
+                transparent
+            );
+            transition: 0.5s;
+        }
+
+        .options-box button:hover::before {
+            left: 100%;
+        }
+
+        .options-box button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 123, 255, 0.4);
+        }
+
+        /* Enhanced profile section */
+        .user-profile {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(45deg, #ff6b6b, #ff4757);
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 28px;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 71, 87, 0.3);
+            border: 2px solid white;
+        }
+
+        .profile-dropdown {
+            position: fixed;
+            top: 110px;
+            right: 30px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            display: none;
+            flex-direction: column;
+            gap: 15px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        /* Games subsection enhancements */
+        .games-subsection {
+            display: none;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .games-subsection button {
+            padding: 18px 35px;
+            font-size: 1em;
+            border: none;
+            color: white;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .games-subsection button::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                120deg,
+                transparent,
+                rgba(255, 255, 255, 0.3),
+                transparent
+            );
+            transition: 0.5s;
+        }
+
+        .games-subsection button:hover::after {
+            left: 100%;
+        }
+
+        .games-subsection button.puzzle {
+            background: linear-gradient(135deg, #28a745, #218838);
+        }
+
+        .games-subsection button.balloon {
+            background: linear-gradient(135deg, #ffc107, #e0a800);
+        }
+
+        /* Motivational message animation */
+        .motivation-message {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 15px 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            font-style: italic;
+            color: #2c3e50;
+            animation: slideInLeft 1s ease-out;
+        }
+
+        @keyframes slideInLeft {
+            from { transform: translateX(-100%); }
+            to { transform: translateX(0); }
+        }
+
+        /* Menu Button Styling */
+        .menu-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            padding: 15px 30px;
+            font-size: 1.5em;
+            background: linear-gradient(135deg, #ff6b6b, #ff4757);
+            color: white;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(255, 71, 87, 0.3);
+            transition: all 0.3s ease;
+            animation: pulse 2s infinite;
+        }
+
+        .menu-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 20px rgba(255, 71, 87, 0.5);
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating particles -->
+    <div class="floating-particles">
+        <div class="particle" style="left: 10%; width: 8px; height: 8px; animation-delay: 0s"></div>
+        <div class="particle" style="left: 20%; width: 12px; height: 12px; animation-delay: 2s"></div>
+        <div class="particle" style="left: 30%; width: 6px; height: 6px; animation-delay: 4s"></div>
+        <!-- Add more particles as needed -->
+    </div>
+
+    <!-- Menu Button -->
+    <button class="menu-button" onclick="navigateTo('menu.html')">☰ Menu</button>
+
+    <!-- User Profile -->
+    <div class="user-profile" onclick="toggleProfileDropdown()">😊</div>
+
+    <!-- Profile Dropdown -->
+    <div class="profile-dropdown" id="profileDropdown">
+        <a href="#">👤 Profile</a>
+        <a href="#">⚙️ Settings</a>
+        <a href="#">🚪 Logout</a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="home-container">
+        <h1>EVERYONE DESERVES GOOD MENTAL HEALTH</h1>
+    </div>
+
+    <!-- Motivational Message -->
+    <div class="motivation-message">
+        "Your mental health is a priority. Your happiness is essential. Your self-care is a necessity."
+    </div>
+
+    <!-- Options Box -->
+    <div class="options-box">
+        <button onclick="navigateTo('videos.html')">🎥 Wellness Videos</button>
+        <button onclick="toggleGamesSubsection()">🎮 Relaxation Games</button>
+        <div class="games-subsection" id="gamesSubsection">
+            <button class="puzzle" onclick="navigateTo('puzzle.html')">🧩 Mindfulness Puzzle</button>
+            <button class="balloon" onclick="navigateTo('balloon.html')">🎈 Stress Relief Balloons</button>
+        </div>
+    </div>
+
+    <script>
+        // Add floating particles dynamically
+        function createParticles() {
+            const particlesContainer = document.querySelector('.floating-particles');
+            for (let i = 0; i < 15; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.width = Math.random() * 10 + 5 + 'px';
+                particle.style.height = particle.style.width;
+                particle.style.animationDelay = Math.random() * 10 + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+        createParticles();
+
+        // Function to navigate to a specific page
+        function navigateTo(page) {
+            window.location.href = page; // Redirect to the specified page
+        }
+
+        // Function to toggle the profile dropdown
+        function toggleProfileDropdown() {
+            const dropdown = document.getElementById('profileDropdown');
+            dropdown.style.display = dropdown.style.display === 'flex' ? 'none' : 'flex';
+        }
+
+        // Function to toggle the games subsection
+        function toggleGamesSubsection() {
+            const subsection = document.getElementById('gamesSubsection');
+            subsection.style.display = subsection.style.display === 'flex' ? 'none' : 'flex';
+        }
+
+        // Add rotating motivational messages
+        const messages = [
+            "You're stronger than you think.",
+            "Take time to breathe.",
+            "Progress, not perfection.",
+            "Self-care is not selfish.",
+            "You matter more than you know."
+        ];
+        
+        const motivationElement = document.querySelector('.motivation-message');
+        let messageIndex = 0;
+        
+        setInterval(() => {
+            motivationElement.style.opacity = 0;
+            setTimeout(() => {
+                messageIndex = (messageIndex + 1) % messages.length;
+                motivationElement.textContent = `"${messages[messageIndex]}"`;
+                motivationElement.style.opacity = 1;
+            }, 500);
+        }, 5000);
+    </script>
+</body>
+</html>

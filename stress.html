@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mental Health Exercises 😊</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background: linear-gradient(to right, #c1e3ff, #abc7ff);
+            margin: 0;
+            padding: 20px;
+        }
+        .frame {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            max-width: 450px;
+            margin: auto;
+        }
+        h1 {
+            color: #333;
+        }
+        .exercise-list {
+            text-align: left;
+            padding: 10px;
+        }
+        .exercise {
+            font-size: 18px;
+            margin: 10px 0;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
+        .emoji {
+            font-size: 24px;
+            margin-right: 10px;
+        }
+        .button {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        .button:hover {
+            background: #218838;
+        }
+        .breathing-circle {
+            width: 100px;
+            height: 100px;
+            margin: 20px auto;
+            border-radius: 50%;
+            background: lightblue;
+            animation: breathing 5s infinite alternate;
+        }
+        @keyframes breathing {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.5); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="frame">
+        <h1>🧘 Mental Health Exercises 😊</h1>
+
+        <h2>💡 Try These Exercises:</h2>
+        <div class="exercise-list" id="exercise-list">
+           
+        </div>
+        
+        <button class="button" onclick="showExercises()">🎲 Refresh Exercises</button>
+
+        <h2>🌬️ Breathing Exercise</h2>
+        <div class="breathing-circle"></div>
+        <p>Inhale as the circle expands, exhale as it shrinks.</p>
+    </div>
+
+    <script>
+        const exercises = [
+            "📝 Write down three things you're grateful for.",
+            "🎵 Listen to your favorite relaxing song.",
+            "🌳 Take a short walk outside and enjoy nature.",
+            "💦 Drink a glass of water and relax.",
+            "😊 Smile at yourself in the mirror.",
+            "📖 Read a few pages of a positive book.",
+            "🧘‍♂️ Do 5 minutes of deep breathing meditation.",
+            "🎨 Draw or doodle something fun.",
+            "🤗 Call or text a friend to say hello.",
+            "🚶‍♂️ Stretch your body and take a deep breath.",
+            "🍎 Eat a healthy snack mindfully.",
+            "⏳ Take a 10-minute break from screens.",
+            "🌞 Sit in natural sunlight for a few minutes.",
+            "📅 Plan a small, fun activity for tomorrow.",
+            "🛌 Get comfortable and rest for a few minutes."
+        ];
+
+        function showExercises() {
+            let exerciseListDiv = document.getElementById("exercise-list");
+            exerciseListDiv.innerHTML = ""; // Clear old exercises
+
+            let shuffledExercises = exercises.sort(() => 0.5 - Math.random()).slice(0, 5); // Pick 5 random exercises
+            
+            shuffledExercises.forEach(exercise => {
+                let exerciseItem = document.createElement("div");
+                exerciseItem.classList.add("exercise");
+                exerciseItem.innerHTML = `<span class="emoji">${exercise.split(" ")[0]}</span> ${exercise.substring(2)}`;
+                exerciseListDiv.appendChild(exerciseItem);
+            });
+        }
+
+        // Load exercises on page load
+        showExercises();
+    </script>
+
+</body>
+</html>

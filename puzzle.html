@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sliding Puzzle Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #2c3e50;
+            color: white;
+        }
+        .game-container {
+            text-align: center;
+        }
+        h1 {
+            margin-bottom: 20px;
+        }
+        .puzzle-board {
+            display: grid;
+            grid-template-columns: repeat(3, 100px);
+            grid-template-rows: repeat(3, 100px);
+            gap: 5px;
+        }
+        .tile {
+            width: 100px;
+            height: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #3498db;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        .tile.empty {
+            background-color: transparent;
+            cursor: default;
+        }
+        .tile:hover:not(.empty) {
+            background-color: #2980b9;
+        }
+        .message {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #27ae60;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #2ecc71;
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <h1>Sliding Puzzle Game</h1>
+        <div class="puzzle-board" id="puzzleBoard"></div>
+        <div class="message" id="message"></div>
+        <button onclick="shuffleTiles()">Shuffle</button>
+    </div>
+
+    <script>
+        const puzzleBoard = document.getElementById('puzzleBoard');
+        const message = document.getElementById('message');
+        let tiles = [1, 2, 3, 4, 5, 6, 7, 8, null]; // Initial tile arrangement
+        let emptyTileIndex = 8; // Index of the empty tile
+
+        // Initialize the puzzle
+        function initializePuzzle() {
+            renderTiles();
+        }
+
+        // Render tiles on the board
+        function renderTiles() {
+            puzzleBoard.innerHTML = '';
+            tiles.forEach((tile, index) => {
+                const tileElement = document.createElement('div');
+                tileElement.classList.add('tile');
+                if (tile === null) {
+                    tileElement.classList.add('empty');
+                    tileElement.textContent = '';
+                } else {
+                    tileElement.textContent = tile;
+                }
+                tileElement.addEventListener('click', () => moveTile(index));
+                puzzleBoard.appendChild(tileElement);
+            });
+        }
+
+        // Move a tile
+        function moveTile(index) {
+            const row = Math.floor(index / 3);
+            const col = index % 3;
+            const emptyRow = Math.floor(emptyTileIndex / 3);
+            const emptyCol = emptyTileIndex % 3;
+
+            // Check if the clicked tile is adjacent to the empty tile
+            if (
+                (Math.abs(row - emptyRow) === 1 && col === emptyCol) || // Same column, adjacent row
+                (Math.abs(col - emptyCol) === 1 && row === emptyRow)    // Same row, adjacent column
+            ) {
+                // Swap the clicked tile with the empty tile
+                [tiles[index], tiles[emptyTileIndex]] = [tiles[emptyTileIndex], tiles[index]];
+                emptyTileIndex = index;
+                renderTiles();
+                checkWin();
+            }
+        }
+
+        // Check if the player has won
+        function checkWin() {
+            const isWin = tiles.slice(0, 8).every((tile, index) => tile === index + 1);
+            if (isWin && tiles[8] === null) {
+                message.textContent = 'Congratulations! You solved the puzzle! 🎉';
+            }
+        }
+
+        // Shuffle the tiles
+        function shuffleTiles() {
+            do {
+                for (let i = tiles.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [tiles[i], tiles[j]] = [tiles[j], tiles[i]];
+                }
+                emptyTileIndex = tiles.indexOf(null); // Update empty tile index
+            } while (!isSolvable()); // Ensure the puzzle is solvable
+            renderTiles();
+            message.textContent = '';
+        }
+
+        // Check if the puzzle is solvable
+        function isSolvable() {
+            let inversions = 0;
+            for (let i = 0; i < tiles.length - 1; i++) {
+                for (let j = i + 1; j < tiles.length; j++) {
+                    if (tiles[i] !== null && tiles[j] !== null && tiles[i] > tiles[j]) {
+                        inversions++;
+                    }
+                }
+            }
+            // For a 3x3 puzzle, it's solvable if the number of inversions is even
+            return inversions % 2 === 0;
+        }
+
+        // Start the game
+        initializePuzzle();
+    </script>
+</body>
+</html>

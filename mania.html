@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mania Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(to right, #e9e640, #abc7ff);
+            margin: 0;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            border-radius: 8px;
+            width: 300px;
+        }
+        #opt {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        button {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #164b84;
+            color: white;
+            border-color: black;
+            border-radius: 10;
+
+            cursor: pointer;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #5082b8;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="container">
+        <h1>Mania Test</h1>
+        <div id="ques-container">
+            <h2 id="ques">Loading...</h2>
+            <div id="opt"></div>
+        </div>
+        <!--<button id="next-btn" onclick="nextQuestion()">Next</button>-->
+    </div>
+    <script>
+        const ques = [
+        { 
+            ques: "I have talked much more or faster than normal ", 
+            opt: [
+                { text: "Never", points: 1 }, 
+                { text: "Some of the time", points: 2 }, 
+                { text: "Much of the time", points: 3 }, 
+                { text: "Nearly all the time", points: 4 }
+            ]
+        },
+        { 
+            ques: "I've felt much more upbeat than normal ", 
+            opt: [
+                { text: "Never", points: 1 }, 
+                { text: "Some of the time", points: 2 }, 
+                { text: "Much of the time", points: 3 }, 
+                { text: "Nearly all the time", points: 4 }
+            ]
+        },
+        { 
+            ques: "I've been much more active than normal ", 
+            opt: [
+                { text: "Disagree", points: 1 }, 
+                { text: "Somewhat disagree ", points: 2 }, 
+                { text: "Somewhat agree", points: 3 }, 
+                { text: "Agree ", points: 4 }
+            ]
+        },
+        { 
+            ques: "I have felt more confident tha normal  ", 
+            opt: [
+                { text: "Disagree", points: 1 }, 
+                { text: "Somewhat disagree", points: 2 }, 
+                { text: "Somewhat agree", points: 3 }, 
+                { text: "Agree", points: 4 }
+            ]
+        },
+        { 
+            ques: "I have needed less sleep than normal  ", 
+            opt: [
+                { text: "Not at all", points: 1 }, 
+                { text: "Some days", points: 2 }, 
+                { text: "Most days", points: 3 }, 
+                { text: "Nearly everyday", points: 4 }
+            ]
+        },
+        { 
+            ques: "I am full of great new ideas ", 
+            opt: [
+                { text: "Diagree", points: 1 }, 
+                { text: "Somewhat disagree", points: 2 }, 
+                { text: "Somewhat agree", points: 3 }, 
+                { text: "Agree", points: 4 }
+            ]
+        },
+        { 
+            ques: "I have been easily irriated or agitated ", 
+            opt: [
+                { text: "Not at all", points: 1 }, 
+                { text: "Some of the time", points: 2 }, 
+                { text: "Much of the time", points: 3 }, 
+                { text: "Nearly all the time", points: 4 }
+            ]
+        },
+        { 
+            ques: "I have engaged in or pursued risky behaviors more than usual ", 
+            opt: [
+                { text: "Diagree", points: 1 }, 
+                { text: "Somewhat disagree", points: 2 }, 
+                { text: "Somewhat agree", points: 3 }, 
+                { text: "Agree", points: 4 }
+            ]
+        },
+        { 
+            ques: "I have been easily distracted ", 
+            opt: [
+                { text: "Not at all", points: 1 }, 
+                { text: "Some of the time", points: 2 }, 
+                { text: "Much of the time", points: 3 }, 
+                { text: "Nearly all the time", points: 4 }
+            ]
+        },
+       
+        ];
+        
+        let CurrQuesInd = 0; /*CurrQuesInd : currentQuestionIndex*/
+        let score = 0;
+
+        function loadQues() {
+            const quesElement = document.getElementById("ques");
+            const optContainer = document.getElementById("opt");
+
+            if (CurrQuesInd >= ques.length) {
+                displayResult();
+                return;
+            }
+
+            const currQues = ques[CurrQuesInd];
+            quesElement.innerText = currQues.ques;
+            optContainer.innerHTML = "";
+
+            currQues.opt.forEach(option => {
+                const button = document.createElement("button");
+                button.innerText = option.text;
+                button.onclick = () => {
+                    score += option.points;
+                    nextQuestion();
+                };
+                optContainer.appendChild(button);
+            });
+        }
+
+        function nextQuestion() {
+            CurrQuesInd++;
+            loadQues();
+        }
+        
+        function displayResult() {
+            const container = document.getElementById("container");
+            let message = "";
+            let buttonText = "";
+            let buttonLink = "#";
+
+            if (score >= 0 && score <= 9) {
+                message = "Your mood appears to be stable. Keep maintaining a balanced lifestyle!";
+                buttonText = "Stay Balanced!";
+            } else if (score >= 10 && score <= 18) {
+                message = "You may be experiencing elevated energy levels. Consider practicing mindfulness and self-care.";
+                buttonText = "Practice Mindfulness";
+                buttonLink = "thought.html";
+            } else if (score >= 19 && score <= 27) {
+                message = "Your mood swings may be affecting your daily life. Seeking professional support could be helpful.";
+                buttonText = "Get Support";
+                buttonLink = "client.py";
+            } else if (score >= 28 && score <= 36) {
+                message = "Your symptoms suggest a significant impact on your well-being. Please seek professional help immediately.";
+                buttonText = "Find Urgent Help";
+                buttonLink = "client.py";
+            }
+                     
+            
+
+            container.innerHTML = `
+                <h1>Your Score: ${score}</h1>
+                <p>${message}</p>
+                <a href="${buttonLink}" target="_blank"><button>${buttonText}</button></a>
+            `;
+        }
+
+        window.onload = loadQues;
+    </script>
+</body>
+</html>

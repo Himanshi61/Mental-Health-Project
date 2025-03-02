@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            overflow: hidden;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 40px;
+            box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.2);
+            border-radius: 20px;
+            width: 350px;
+            text-align: center;
+            animation: fadeIn 1s ease-in-out;
+            position: relative;
+            overflow: hidden;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        h2 {
+            margin-bottom: 20px;
+            color: #fff;
+            font-weight: 600;
+            font-size: 24px;
+        }
+        .toggle-buttons {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .toggle-buttons button {
+            margin: 0 10px;
+            padding: 10px 20px;
+            cursor: pointer;
+            border: none;
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            border-radius: 25px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        .toggle-buttons button.active {
+            background-color: #007bff;
+            transform: scale(1.1);
+        }
+        .toggle-buttons button:hover {
+            background-color: #0056b3;
+        }
+        form {
+            display: none;
+            animation: slideIn 0.5s ease-in-out;
+        }
+        form.active {
+            display: block;
+        }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .input-group {
+            position: relative;
+            margin: 20px 0;
+        }
+        .input-group i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(255, 255, 255, 0.7);
+        }
+        input {
+            width: 100%;
+            padding: 12px 12px 12px 40px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 25px;
+            font-size: 14px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            transition: all 0.3s ease;
+        }
+        input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+        input:focus {
+            border-color: #007bff;
+            outline: none;
+            box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
+        }
+        button.submit {
+            width: 100%;
+            padding: 12px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 25px;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+        button.submit:hover {
+            background-color: #0056b3;
+            box-shadow: 0 0 15px rgba(0, 123, 255, 0.7);
+        }
+        .floating {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: float 6s infinite ease-in-out;
+        }
+        .floating.one {
+            top: -50px;
+            left: -50px;
+            animation-delay: 0s;
+        }
+        .floating.two {
+            bottom: -50px;
+            right: -50px;
+            animation-delay: 3s;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="floating one"></div>
+        <div class="floating two"></div>
+        <h2>Sign In</h2>
+        <div class="toggle-buttons">
+            <button id="mentor-btn" class="active" onclick="toggleForm('mentor')">Mentor</button>
+            <button id="user-btn" onclick="toggleForm('user')">User</button>
+        </div>
+        <form id="mentor-form" class="active" onsubmit="handleSignIn(event, 'mentor')">
+            <div class="input-group">
+                <i class="fas fa-envelope"></i>
+                <input type="email" placeholder="Mentor Email" required>
+            </div>
+            <div class="input-group">
+                <i class="fas fa-lock"></i>
+                <input type="password" placeholder="Password" required>
+            </div>
+            <button type="submit" class="submit">Sign In</button>
+        </form>
+        <form id="user-form" onsubmit="handleSignIn(event, 'user')">
+            <div class="input-group">
+                <i class="fas fa-envelope"></i>
+                <input type="email" placeholder="User Email" required>
+            </div>
+            <div class="input-group">
+                <i class="fas fa-lock"></i>
+                <input type="password" placeholder="Password" required>
+            </div>
+            <button type="submit" class="submit">Sign In</button>
+        </form>
+    </div>
+
+    <script>
+        function toggleForm(role) {
+            document.getElementById('mentor-form').classList.remove('active');
+            document.getElementById('user-form').classList.remove('active');
+            document.getElementById('mentor-btn').classList.remove('active');
+            document.getElementById('user-btn').classList.remove('active');
+            
+            if (role === 'mentor') {
+                document.getElementById('mentor-form').classList.add('active');
+                document.getElementById('mentor-btn').classList.add('active');
+            } else {
+                document.getElementById('user-form').classList.add('active');
+                document.getElementById('user-btn').classList.add('active');
+            }
+        }
+
+        function handleSignIn(event, role) {
+            event.preventDefault();
+            // Here you can add validation logic if needed
+            window.location.href = 'home.html'; // Redirect to home page
+        }
+    </script>
+</body>
+</html>

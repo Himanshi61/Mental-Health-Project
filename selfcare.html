@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Reels</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #000;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .reels-container {
+            width: 100%;
+            max-width: 400px;
+            height: 100vh;
+            overflow-y: scroll;
+            scroll-snap-type: y mandatory;
+            position: relative;
+        }
+
+        .video-wrapper {
+            width: 100%;
+            height: 100vh;
+            scroll-snap-align: start;
+            position: relative;
+        }
+
+        video, iframe {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .controls {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .control-button {
+            background: rgba(0, 0, 0, 0.5);
+            border: none;
+            color: #fff;
+            padding: 10px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            transition: background 0.3s;
+        }
+
+        .control-button:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .comment-section {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 10px;
+            border-radius: 10px;
+            max-width: 200px;
+        }
+
+        .comment-section input {
+            width: 100%;
+            padding: 5px;
+            border: none;
+            border-radius: 5px;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="reels-container">
+        <!-- Video 1 -->
+        <div class="video-wrapper">
+            <iframe 
+                width="100%" 
+                height="100%" 
+                src="https://www.youtube.com/embed/WT8zggE2orM" 
+                frameborder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                allowfullscreen>
+            </iframe>
+            <div class="controls">
+                <button class="control-button" onclick="likeVideo(this)">❤️</button>
+                <button class="control-button" onclick="commentVideo()">💬</button>
+                <button class="control-button" onclick="shareVideo()">🔗</button>
+            </div>
+            <div class="comment-section">
+                <p>Comments:</p>
+                <ul id="comments1"></ul>
+                <input type="text" id="commentInput1" placeholder="Add a comment..." onkeypress="postComment(event, 'comments1')">
+            </div>
+        </div>
+
+        <!-- Video 2 -->
+        <div class="video-wrapper">
+            <video src="https://youtube.com/shorts/MYD6LFezQI8?si=uOO5WlkfVHjh4ujn" controls></video>
+            <div class="controls">
+                <button class="control-button" onclick="likeVideo(this)">❤️</button>
+                <button class="control-button" onclick="commentVideo()">💬</button>
+                <button class="control-button" onclick="shareVideo()">🔗</button>
+            </div>
+            <div class="comment-section">
+                <p>Comments:</p>
+                <ul id="comments2"></ul>
+                <input type="text" id="commentInput2" placeholder="Add a comment..." onkeypress="postComment(event, 'comments2')">
+            </div>
+        </div>
+
+        <!-- Add more videos as needed -->
+    </div>
+
+    <script>
+        // Like functionality
+        function likeVideo(button) {
+            button.classList.toggle('liked');
+            if (button.classList.contains('liked')) {
+                button.style.color = 'red';
+            } else {
+                button.style.color = '#fff';
+            }
+        }
+
+        // Comment functionality
+        function commentVideo() {
+            alert("Comment feature is under development!");
+        }
+
+        // Share functionality
+        function shareVideo() {
+            alert("Share this video!");
+        }
+
+        // Post comment functionality
+        function postComment(event, commentId) {
+            if (event.key === 'Enter') {
+                const input = event.target;
+                const commentText = input.value.trim();
+                if (commentText) {
+                    const commentList = document.getElementById(commentId);
+                    const newComment = document.createElement('li');
+                    newComment.textContent = commentText;
+                    commentList.appendChild(newComment);
+                    input.value = '';
+                }
+            }
+        }
+    </script>
+</body>
+</html>

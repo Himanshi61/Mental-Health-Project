@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gambling Disorder Exercise</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #c1e3ff, #abc7ff);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            text-align: center;
+            max-width: 500px;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #4f5fd9;
+        }
+
+        .exercise {
+            display: none;
+            font-size: 18px;
+            margin: 20px 0;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        button {
+            background-color: #4f5fd9;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background-color: #4f5fd9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Gambling Disorder Exercise</h1>
+        <p>Follow these steps to manage gambling urges.</p>
+
+        <div id="step1" class="exercise" style="display: block;">
+            <p>1️⃣ **Pause & Reflect:** Why do I feel like gambling right now? 🤔</p>
+            <div class="buttons">
+                <button onclick="nextStep(2)">Next</button>
+            </div>
+        </div>
+
+        <div id="step2" class="exercise">
+            <p>2️⃣ **Delay the Urge:** Set a timer for 15 minutes before acting. ⏳</p>
+            <div class="buttons">
+                <button onclick="nextStep(3)">Next</button>
+            </div>
+        </div>
+
+        <div id="step3" class="exercise">
+            <p>3️⃣ **Find an Alternative:** Go for a walk, call a friend, or watch a movie. 🚶📞🎬</p>
+            <div class="buttons">
+                <button onclick="nextStep(4)">Next</button>
+            </div>
+        </div>
+
+        <div id="step4" class="exercise">
+            <p>4️⃣ **Think of the Consequences:** How will gambling affect my finances & well-being? 💰💭</p>
+            <div class="buttons">
+                <button onclick="nextStep(5)">Next</button>
+            </div>
+        </div>
+
+        <div id="step5" class="exercise">
+            <p>5️⃣ **Make a Commitment:** "I choose to control my actions and seek a healthier lifestyle." 💪</p>
+            <div class="buttons">
+                <button onclick="restartExercise()">Restart</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function nextStep(step) {
+            document.querySelectorAll('.exercise').forEach(ex => ex.style.display = 'none');
+            document.getElementById('step' + step).style.display = 'block';
+        }
+
+        function restartExercise() {
+            nextStep(1);
+        }
+    </script>
+</body>
+</html>

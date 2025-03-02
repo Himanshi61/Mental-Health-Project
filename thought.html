@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mania Management Exercise</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+            background: linear-gradient(to right, #c1e3ff, #abc7ff);
+        }
+        .exercise-container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            margin: auto;
+        }
+        button {
+            margin-top: 10px;
+            padding: 10px;
+            border: none;
+            background-color: #4CAF50;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        textarea {
+            width: 100%;
+            height: 60px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="exercise-container">
+        <h2>Mania Management Exercise</h2>
+        <p id="exercise-text">Click the button to start an exercise.</p>
+        <button onclick="startExercise()">Start</button>
+        <textarea id="journal" placeholder="Write your thoughts here..."></textarea>
+    </div>
+    
+    <script>
+        const exercises = [
+            "Name 5 things you can see around you.",
+            "Name 4 things you can touch.",
+            "Name 3 things you can hear.",
+            "Name 2 things you can smell.",
+            "Name 1 thing you are grateful for.",
+            "Take 5 deep breaths. Inhale... Hold... Exhale..."
+        ];
+        
+        function startExercise() {
+            const randomIndex = Math.floor(Math.random() * exercises.length);
+            document.getElementById("exercise-text").innerText = exercises[randomIndex];
+        }
+    </script>
+</body>
+</html>

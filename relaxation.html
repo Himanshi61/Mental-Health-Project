@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title> Breathing Exercise</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .container {
+      text-align: center;
+    }
+
+    h1 {
+      color: #4b9cd3;
+    }
+
+    .circle {
+      width: 200px;
+      height: 200px;
+      margin: 20px auto;
+      border-radius: 50%;
+      background-color: #4b9cd3;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      font-size: 24px;
+      font-weight: bold;
+      transition: all 4s ease-in-out;
+    }
+
+    button {
+      background-color: #4b9cd3;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+
+    button:hover {
+      background-color: #3577a3;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Anxiety Breathing Exercise</h1>
+    <p>Follow the breathing guide below to help calm anxiety. Inhale, hold, and exhale following the on-screen instructions.</p>
+    
+    <div class="circle" id="circle">
+      <p id="text">Inhale</p>
+    </div>
+    
+    <button id="startButton">Start Exercise</button>
+  </div>
+
+  <script>
+    let circle = document.getElementById("circle");
+    let text = document.getElementById("text");
+    let startButton = document.getElementById("startButton");
+
+    let phases = ["Inhale", "Hold", "Exhale"];
+    let currentPhase = 0;
+
+    let breathingCycle = [
+      { phase: "Inhale", duration: 4 },  // 4 seconds for inhale
+      { phase: "Hold", duration: 7 },    // 7 seconds for holding breath
+      { phase: "Exhale", duration: 6 }   // 6 seconds for exhale
+    ];
+
+    let currentStep = 0;
+    let timer;
+
+    function startExercise() {
+      currentStep = 0;
+      startButton.disabled = true;
+      nextStep();
+    }
+
+    function nextStep() {
+      if (currentStep < breathingCycle.length) {
+        let currentAction = breathingCycle[currentStep];
+        text.textContent = currentAction.phase;
+        animateCircle(currentAction.phase);
+
+        // Adjust circle size based on phase
+        let size = currentAction.phase === "Inhale" ? 300 : currentAction.phase === "Exhale" ? 100 : 200;
+
+        setTimeout(() => {
+          currentStep++;
+          nextStep();
+        }, currentAction.duration * 1000); // Wait based on duration (in milliseconds)
+      } else {
+        endExercise();
+      }
+    }
+
+    function animateCircle(phase) {
+      if (phase === "Inhale") {
+        circle.style.width = "300px";
+        circle.style.height = "300px";
+      } else if (phase === "Exhale") {
+        circle.style.width = "100px";
+        circle.style.height = "100px";
+      } else {
+        circle.style.width = "200px";
+        circle.style.height = "200px";
+      }
+    }
+
+    function endExercise() {
+      text.textContent = "Exercise Complete!";
+      startButton.disabled = false;
+    }
+
+    startButton.addEventListener("click", startExercise);
+  </script>
+</body>
+</html>

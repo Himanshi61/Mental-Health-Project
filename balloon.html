@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Balloon Pop - Stress Relief Game</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #a1c4fd, #c2e9fb);
+        }
+        canvas {
+            border: 2px solid #fff;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        #score {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 24px;
+            color: #fff;
+            font-family: Arial, sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="gameCanvas" width="800" height="600"></canvas>
+    <div id="score">Score: 0</div>
+
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        const scoreElement = document.getElementById('score');
+
+        // Balloon properties
+        const balloons = [];
+        const balloonRadius = 30;
+        const colors = [
+            { color: '#FF6B6B', burstColors: ['#FF9E9E', '#FF6B6B', '#FFCC5C'], effect: 'sparkle' }, // Red
+            { color: '#FFD166', burstColors: ['#FFDD8E', '#FFD166', '#FFEEAD'], effect: 'confetti' }, // Orange
+            { color: '#FFEE93', burstColors: ['#FFF3C7', '#FFEE93', '#FFCC5C'], effect: 'stars' }, // Yellow
+            { color: '#A8E6CF', burstColors: ['#B6E6D9', '#A8E6CF', '#96CEB4'], effect: 'leaves' }, // Green
+            { color: '#84DCC6', burstColors: ['#A8E6CF', '#84DCC6', '#96CEB4'], effect: 'bubbles' }, // Teal
+            { color: '#A1C4FD', burstColors: ['#B6E6D9', '#A1C4FD', '#96CEB4'], effect: 'sparkle' }, // Blue
+            { color: '#D4A5A5', burstColors: ['#FF9E9E', '#D4A5A5', '#FFCC5C'], effect: 'confetti' }  // Purple
+        ];
+
+        // Particle properties for bursting effect
+        const particles = [];
+        const particleCount = 20; // Number of particles per burst
+        const particleSpeed = 3; // Speed of particles
+
+        // Cloud properties
+        const clouds = [];
+        const cloudCount = 10; // Increased number of clouds
+        const cloudSpeed = 0.5; // Speed of clouds
+
+        // Airplane properties
+        const airplane = {
+            x: -100, // Start off-screen
+            y: 100,
+            width: 100,
+            height: 50,
+            speed: 2
+        };
+
+        // Fireworks properties
+        const fireworks = [];
+        const fireworkCount = 50; // Number of particles per firework
+
+        // Score
+        let score = 0;
+
+        // Background gradient animation
+        let gradientAngle = 0;
+
+        // Background music
+        const backgroundMusic = new Audio('https://www.soundjay.com/nature/sounds/forest-ambience-1.mp3'); // Replace with your own music URL
+        backgroundMusic.loop = true;
+        backgroundMusic.volume = 0.5; // Lower volume for background music
+
+        // Create balloons
+        function createBalloon() {
+            const x = Math.random() * canvas.width;
+            const y = canvas.height + balloonRadius;
+            const colorData = colors[Math.floor(Math.random() * colors.length)];
+            const sway = Math.random() * 0.1; // Sway effect for the balloon
+            balloons.push({
+                x,
+                y,
+                color: colorData.color,
+                burstColors: colorData.burstColors,
+                effect: colorData.effect,
+                sway,
+                stringLength: Math.random() * 20 + 30, // Random string length
+                speed: Math.random() * 1 + 1 // Random upward speed
+            });
+        }
+
+        // Create clouds
+        function createClouds() {
+            for (let i = 0; i < cloudCount; i++) {
+                const x = Math.random() * canvas.width;
+                const y = Math.random() * (canvas.height / 2);
+                const size = Math.random() * 40 + 20; // Smaller cloud size
+                const shade = Math.random() > 0.5 ? 'rgba(255, 255, 255, 0.8)' : 'rgba(200, 200, 200, 0.8)'; // Darker shade for some clouds
+                clouds.push({ x, y, size, shade });
+            }
+        }
+
+        // Draw clouds
+        function drawClouds() {
+            clouds.forEach((cloud, index) => {
+                ctx.beginPath();
+                ctx.arc(cloud.x, cloud.y, cloud.size, 0, Math.PI * 2);
+                ctx.arc(cloud.x + cloud.size * 0.6, cloud.y, cloud.size * 0.8, 0, Math.PI * 2);
+                ctx.arc(cloud.x - cloud.size * 0.6, cloud.y, cloud.size * 0.8, 0, Math.PI * 2);
+                ctx.fillStyle = cloud.shade;
+                ctx.fill();
+                ctx.closePath();
+
+                // Move clouds to the left
+                cloud.x -= cloudSpeed;
+
+                // Reset cloud position when it goes off-screen
+                if (cloud.x + cloud.size < 0) {
+                    cloud.x = canvas.width + cloud.size;
+                    cloud.y = Math.random() * (canvas.height / 2);
+                    cloud.size = Math.random() * 40 + 20; // Reset size
+                    cloud.shade = Math.random() > 0.5 ? 'rgba(255, 255, 255, 0.8)' : 'rgba(200, 200, 200, 0.8)'; // Reset shade
+                }
+            });
+        }
+
+        // Draw airplane
+        function drawAirplane() {
+            ctx.save();
+            ctx.translate(airplane.x, airplane.y);
+
+            // Airplane body
+            ctx.fillStyle = '#ffffff';
+            ctx.beginPath();
+            ctx.moveTo(0, 0);
+            ctx.lineTo(airplane.width, 0);
+            ctx.lineTo(airplane.width - 20, airplane.height / 2);
+            ctx.lineTo(0, airplane.height / 2);
+            ctx.closePath();
+            ctx.fill();
+
+            // Airplane wings
+            ctx.fillStyle = '#cccccc';
+            ctx.beginPath();
+            ctx.moveTo(airplane.width / 2, 0);
+            ctx.lineTo(airplane.width, -20);
+            ctx.lineTo(airplane.width, 0);
+            ctx.closePath();
+            ctx.fill();
+
+            ctx.beginPath();
+            ctx.moveTo(airplane.width / 2, airplane.height / 2);
+            ctx.lineTo(airplane.width, airplane.height / 2 + 20);
+            ctx.lineTo(airplane.width, airplane.height / 2);
+            ctx.closePath();
+            ctx.fill();
+
+            ctx.restore();
+
+            // Move airplane
+            airplane.x += airplane.speed;
+
+            // Reset airplane position when it goes off-screen
+            if (airplane.x > canvas.width + airplane.width) {
+                airplane.x = -airplane.width;
+                airplane.y = Math.random() * (canvas.height / 2);
+            }
+        }
+
+        // Draw balloons with shading, shadows, and swaying strings
+        function drawBalloons() {
+            balloons.forEach((balloon, index) => {
+                const x = balloon.x + Math.sin(balloon.sway) * 10;
+                const y = balloon.y;
+
+                // Draw shadow
+                ctx.beginPath();
+                ctx.arc(x + 5, y + 5, balloonRadius, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
+                ctx.fill();
+                ctx.closePath();
+
+                // Create a radial gradient for shading
+                const gradient = ctx.createRadialGradient(
+                    x, y, balloonRadius * 0.2, // Inner circle (highlight)
+                    x, y, balloonRadius // Outer circle (shadow)
+                );
+                gradient.addColorStop(0, '#ffffff'); // Highlight
+                gradient.addColorStop(0.8, balloon.color); // Main color
+                gradient.addColorStop(1, '#000000'); // Shadow
+
+                // Draw the balloon
+                ctx.beginPath();
+                ctx.arc(x, y, balloonRadius, 0, Math.PI * 2);
+                ctx.fillStyle = gradient;
+                ctx.fill();
+                ctx.closePath();
+
+                // Draw the string with a sway effect
+                ctx.beginPath();
+                ctx.moveTo(x, y + balloonRadius);
+                ctx.bezierCurveTo(
+                    x + Math.sin(balloon.sway) * 15, // Sway effect
+                    y + balloonRadius + balloon.stringLength / 2,
+                    x + Math.sin(balloon.sway) * 15, // Sway effect
+                    y + balloonRadius + balloon.stringLength,
+                    x,
+                    y + balloonRadius + balloon.stringLength
+                );
+                ctx.strokeStyle = '#000';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+                ctx.closePath();
+
+                // Update balloon position
+                balloon.y -= balloon.speed; // Move upwards
+                balloon.sway += 0.05; // Update sway effect
+
+                // Remove balloons that go off-screen
+                if (balloon.y + balloonRadius + balloon.stringLength < 0) {
+                    balloons.splice(index, 1);
+                }
+            });
+        }
+
+        // Create particles for bursting effect
+        function createParticles(x, y, burstColors, effect) {
+            for (let i = 0; i < particleCount; i++) {
+                const angle = (Math.PI * 2) * (i / particleCount);
+                const velocity = {
+                    x: Math.cos(angle) * particleSpeed,
+                    y: Math.sin(angle) * particleSpeed
+                };
+                const color = burstColors[Math.floor(Math.random() * burstColors.length)]; // Random burst color
+
+                // Add unique behavior based on the effect
+                let behavior = {};
+                switch (effect) {
+                    case 'sparkle': // Sparkling effect
+                        behavior = {
+                            size: Math.random() * 4 + 2,
+                            gravity: 0.1,
+                            fade: 0.03
+                        };
+                        break;
+                    case 'confetti': // Falling confetti
+                        behavior = {
+                            size: Math.random() * 6 + 3,
+                            gravity: 0.2,
+                            fade: 0.02
+                        };
+                        break;
+                    case 'leaves': // Floating leaves
+                        behavior = {
+                            size: Math.random() * 8 + 4,
+                            gravity: 0.05,
+                            fade: 0.01
+                        };
+                        break;
+                    case 'bubbles': // Floating bubbles
+                        behavior = {
+                            size: Math.random() * 5 + 3,
+                            gravity: -0.1,
+                            fade: 0.02
+                        };
+                        break;
+                    case 'stars': // Sparkling stars
+                        behavior = {
+                            size: Math.random() * 3 + 2,
+                            gravity: 0,
+                            fade: 0.04
+                        };
+                        break;
+                }
+
+                particles.push({ x, y, color, velocity, alpha: 1, ...behavior });
+            }
+        }
+
+        // Draw particles
+        function drawParticles() {
+            particles.forEach((particle, index) => {
+                ctx.beginPath();
+                ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+                ctx.fillStyle = particle.color;
+                ctx.globalAlpha = particle.alpha;
+                ctx.fill();
+                ctx.closePath();
+
+                // Update particle position and fade out
+                particle.x += particle.velocity.x;
+                particle.y += particle.velocity.y + particle.gravity; // Apply gravity
+                particle.alpha -= particle.fade; // Fade out effect
+
+                // Remove particles that are fully faded
+                if (particle.alpha <= 0) {
+                    particles.splice(index, 1);
+                }
+            });
+            ctx.globalAlpha = 1; // Reset global alpha
+        }
+
+        // Create fireworks
+        function createFireworks(x, y) {
+            for (let i = 0; i < fireworkCount; i++) {
+                const angle = (Math.PI * 2) * (i / fireworkCount);
+                const velocity = {
+                    x: Math.cos(angle) * (Math.random() * 4 + 2),
+                    y: Math.sin(angle) * (Math.random() * 4 + 2)
+                };
+                const color = `hsl(${Math.random() * 360}, 100%, 50%)`; // Random bright color
+                fireworks.push({
+                    x,
+                    y,
+                    color,
+                    velocity,
+                    alpha: 1,
+                    size: Math.random() * 4 + 2,
+                    gravity: 0.1,
+                    fade: 0.02
+                });
+            }
+        }
+
+        // Draw fireworks
+        function drawFireworks() {
+            fireworks.forEach((firework, index) => {
+                ctx.beginPath();
+                ctx.arc(firework.x, firework.y, firework.size, 0, Math.PI * 2);
+                ctx.fillStyle = firework.color;
+                ctx.globalAlpha = firework.alpha;
+                ctx.fill();
+                ctx.closePath();
+
+                // Update firework position and fade out
+                firework.x += firework.velocity.x;
+                firework.y += firework.velocity.y + firework.gravity; // Apply gravity
+                firework.alpha -= firework.fade; // Fade out effect
+
+                // Remove fireworks that are fully faded
+                if (firework.alpha <= 0) {
+                    fireworks.splice(index, 1);
+                }
+            });
+            ctx.globalAlpha = 1; // Reset global alpha
+        }
+
+        // Check for balloon pops
+        function popBalloon(event) {
+            const rect = canvas.getBoundingClientRect();
+            const scaleX = canvas.width / rect.width; // Scale for canvas width
+            const scaleY = canvas.height / rect.height; // Scale for canvas height
+            const mouseX = (event.clientX - rect.left) * scaleX; // Adjust mouse X coordinate
+            const mouseY = (event.clientY - rect.top) * scaleY; // Adjust mouse Y coordinate
+
+            balloons.forEach((balloon, index) => {
+                const dist = Math.sqrt((mouseX - balloon.x) ** 2 + (mouseY - balloon.y) ** 2);
+                if (dist < balloonRadius) {
+                    createParticles(balloon.x, balloon.y, balloon.burstColors, balloon.effect); // Create burst effect with unique behavior
+                    balloons.splice(index, 1); // Pop the balloon
+                    playPopSound(); // Play a soothing pop sound
+                    score++; // Increase score
+                    scoreElement.textContent = `Score: ${score}`; // Update score display
+
+                    // Background fireworks after every 12 balloons popped
+                    if (score % 12 === 0) {
+                        createFireworks(canvas.width / 2, canvas.height / 2); // Fireworks in the center
+                    }
+                }
+            });
+        }
+
+        // Play a soothing pop sound
+        function playPopSound() {
+            const popSound = new Audio('https://www.soundjay.com/button/button-3.mp3'); // Replace with your own sound URL
+            popSound.play();
+        }
+
+        // Game loop
+        function gameLoop() {
+            // Update background gradient
+            gradientAngle += 0.002;
+            const gradient = ctx.createLinearGradient(
+                0, 0,
+                canvas.width * Math.cos(gradientAngle),
+                canvas.height * Math.sin(gradientAngle)
+            );
+            gradient.addColorStop(0, '#a1c4fd');
+            gradient.addColorStop(1, '#c2e9fb');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            drawClouds(); // Draw clouds first (background)
+            drawAirplane(); // Draw airplane
+            drawBalloons(); // Draw balloons with shading and swaying strings
+            drawParticles(); // Draw particles (burst effect)
+            drawFireworks(); // Draw fireworks
+            requestAnimationFrame(gameLoop);
+        }
+
+        // Add event listener for clicking balloons
+        canvas.addEventListener('click', popBalloon);
+
+        // Create initial clouds
+        createClouds();
+
+        // Create balloons at a faster rate (every 200ms)
+        setInterval(createBalloon, 200);
+
+        // Start the game loop
+        gameLoop();
+
+        // Play background music
+        backgroundMusic.play();
+    </script>
+</body>
+</html>
